@@ -1,14 +1,15 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import "dotenv/config";
+import middlewares from "./middlewares/error";
+import { api } from "./handlers";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-	res.send("Hello bro!");
-});
+app.use("/api", api);
+app.use(middlewares.errorHandler);
 
 app.listen(port, () => {
 	console.log(`Listening to port - ${port}`);
